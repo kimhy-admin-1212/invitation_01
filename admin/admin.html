@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quản lý RSVP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+      .hidden {
+        display: none;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>👥 Danh sách</h2>
+    <button onclick="logout()">🚪 Đăng xuất</button>
+
+    <form id="rsvpForm">
+      <input type="text" id="name" placeholder="Tên thiệp" required /><br />
+      <input
+        type="text"
+        id="url"
+        placeholder="URL thiệp"
+        required
+        style="width: 500px"
+      /><br />
+      <input
+        type="text"
+        id="img"
+        placeholder="Hình ảnh thumbmail"
+        required
+        style="width: 1000px"
+      /><br />
+      <button type="submit">Thêm mới</button>
+    </form>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tên thiệp</th>
+          <th>URL thiệp</th>
+          <th>Hình ảnh thumbmail</th>
+          <th>Hành động</th>
+        </tr>
+      </thead>
+      <tbody id="rsvpTableBody"></tbody>
+    </table>
+
+    <script src="../js/config.js"></script>
+    <script>
+      const { createClient } = supabase;
+      const supabaseClient = createClient(
+        CONFIG.SUPABASE_URL,
+        CONFIG.SUPABASE_KEY
+      );
+
+      // Nếu chưa đăng nhập thì quay về login
+      if (localStorage.getItem("loggedInAdmin") !== "true") {
+        window.location.href = "login.html";
+      }
+
+      function logout() {
+        localStorage.removeItem("loggedInAdmin");
+        window.location.href = "login.html";
+      }
+
+      document
+        .getElementById("rsvpForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const name = document.getElementById("name").value.trim();
+          const url = document.getElementById("url").value.trim();
+          const img = document.getElementById("img").value.trim();
+
+          const { error } = await supabaseClient
+            .from("list_theme")
+            .insert([{ name, url, img }]);
+          if (error) return alert("❌ Thêm thất bại: " + error.message);
+          e.target.reset();
+          loadData();
+        });
+
+      async function loadData() {
+        const { data, error } = await supabaseClient
+          .from("list_theme")
+          .select("*")
+          .order("id", { ascending: false });
+        const tbody = document.getElementById("rsvpTableBody");
+        tbody.innerHTML = "";
+        if (error) {
+          tbody.innerHTML = `<tr><td colspan="3">⚠️ Lỗi tải dữ liệu</td></tr>`;
+          return;
+        }
+        data.forEach((item) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.url}</td>
+          <td>${item.img}</td>
+          <td>
+            <a href="edit.html?id=${item.id}">✏️ Sửa</a> |
+            <a href="#" onclick="deleteEntry(${item.id}, '${item.name.replace(
+            /'/g,
+            "\\'"
+          )}')">🗑️ Xoá</a>
+          </td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function deleteEntry(id, name) {
+        if (!confirm("Bạn có chắc muốn xoá " + name + " không ?")) return;
+
+        const { error } = await supabaseClient
+          .from("list_theme")
+          .delete()
+          .eq("id", id);
+
+        if (error) return alert("❌ Xoá thất bại: " + error.message);
+        loadData();
+      }
+
+      loadData();
+    </script>
+  </body>
+</html>

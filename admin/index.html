@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>RSVP Form</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <h2>Form Đăng ký</h2>
+  <form id="rsvpForm">
+    <input type="text" id="name" placeholder="Họ tên" required />
+    <input type="text" id="description" placeholder="Ghi chú" /> <!-- Không cần required -->
+
+    <button type="submit">Gửi</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="config.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const supabaseClient = createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY);
+
+  document.getElementById('rsvpForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const description = document.getElementById('description').value.trim() || null;
+
+    const { data, error } = await supabaseClient
+      .from('customer')
+      .insert([{ name, description }]);
+
+    const messageEl = document.getElementById('message');
+    if (error) {
+      messageEl.textContent = '❌ Gửi thất bại: ' + error.message;
+      messageEl.style.color = 'red';
+    } else {
+      messageEl.textContent = '✅ Gửi thành công!';
+      messageEl.style.color = 'green';
+      document.getElementById('rsvpForm').reset();
+    }
+  });
+</script>
+</body>
+</html>

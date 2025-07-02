@@ -21,11 +21,69 @@
       th {
         background-color: #f2f2f2;
       }
+
+      .media-wrapper {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .media-wrapper img {
+        width: 300px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+    </style>
+
+    <style>
+      .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+      }
+
+      .popup-content {
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        position: relative;
+        width: 90%;
+        max-width: 800px;
+        height: 90%;
+      }
+
+      .popup iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 6px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <h2>👥 Danh sách</h2>
-    <button onclick="logout()">🚪 Đăng xuất</button>
+    <div style="text-align: right; margin-top: 10px">
+      <button onclick="logout()">🚪 Đăng xuất</button>
+    </div>
 
     <form id="rsvpForm">
       <input type="text" id="name" placeholder="Tên thiệp" required /><br />
@@ -45,18 +103,35 @@
       /><br />
       <button type="submit">Thêm mới</button>
     </form>
+    <!-- 🧩 Thêm ô tìm kiếm -->
+    <div style="text-align: right; margin-top: 10px">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Tìm kiếm theo tên thiệp..."
+        style="padding: 5px; width: 300px"
+      />
+    </div>
 
     <table>
       <thead>
         <tr>
-          <th>Tên thiệp</th>
-          <th>URL thiệp</th>
-          <th>Hình ảnh thumbmail</th>
-          <th>Hành động</th>
+          <th style="width: 25px">Tên thiệp</th>
+          <th style="width: 275px">URL thiệp</th>
+          <th style="width: 275px">Hình ảnh thumbmail</th>
+          <th style="width: 80px">Hành động</th>
         </tr>
       </thead>
       <tbody id="rsvpTableBody"></tbody>
     </table>
+
+    <!-- Popup -->
+    <div id="popup" class="popup hidden">
+      <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <iframe id="popupFrame" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
 
     <script src="../js/config.js"></script>
     <script>
@@ -92,33 +167,62 @@
           loadData();
         });
 
+      let allThemes = [];
+
       async function loadData() {
         const { data, error } = await supabaseClient
           .from("list_theme")
           .select("*")
           .order("id", { ascending: false });
-        const tbody = document.getElementById("rsvpTableBody");
-        tbody.innerHTML = "";
+
         if (error) {
-          tbody.innerHTML = `<tr><td colspan="3">⚠️ Lỗi tải dữ liệu</td></tr>`;
+          document.getElementById(
+            "rsvpTableBody"
+          ).innerHTML = `<tr><td colspan="4">⚠️ Lỗi tải dữ liệu</td></tr>`;
           return;
         }
+
+        allThemes = data;
+        renderData(allThemes);
+      }
+
+      function renderData(data) {
+        const tbody = document.getElementById("rsvpTableBody");
+        tbody.innerHTML = "";
+
         data.forEach((item) => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
-          <td>${item.name}</td>
-          <td>${item.url}</td>
-          <td>${item.img}</td>
-          <td>
-            <a href="edit.html?id=${item.id}">✏️ Sửa</a> |
-            <a href="#" onclick="deleteEntry(${item.id}, '${item.name.replace(
+        <td>${item.name}</td>
+        <td>${item.url}</td>
+        <td>
+          <div class="media-wrapper">
+            <img src="${item.img}" alt="${item.name}" />
+            <span class="open-card" data-url="${
+              item.url
+            }" style="cursor:pointer;">🖼️ Mở thiệp</span>
+          </div>
+        </td>
+        <td>
+          <a href="edit.html?id=${item.id}">✏️ Sửa</a><br><br><br>
+          <a href="#" onclick="deleteEntry(${item.id}, '${item.name.replace(
             /'/g,
             "\\'"
           )}')">🗑️ Xoá</a>
-          </td>`;
+        </td>
+      `;
           tbody.appendChild(tr);
         });
       }
+
+      // 🔍 Tìm kiếm theo tên thiệp
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        const keyword = e.target.value.toLowerCase();
+        const filtered = allThemes.filter((item) =>
+          item.name.toLowerCase().includes(keyword)
+        );
+        renderData(filtered);
+      });
 
       async function deleteEntry(id, name) {
         if (!confirm("Bạn có chắc muốn xoá " + name + " không ?")) return;
@@ -133,6 +237,26 @@
       }
 
       loadData();
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const popup = document.getElementById("popup");
+        const popupFrame = document.getElementById("popupFrame");
+        const closeBtn = document.querySelector(".close-btn");
+
+        document.body.addEventListener("click", function (e) {
+          if (e.target.classList.contains("open-card")) {
+            const url = e.target.dataset.url;
+            popupFrame.src = url;
+            popup.classList.remove("hidden");
+          }
+          if (e.target === closeBtn || e.target === popup) {
+            popup.classList.add("hidden");
+            popupFrame.src = "";
+          }
+        });
+      });
     </script>
   </body>
 </html>

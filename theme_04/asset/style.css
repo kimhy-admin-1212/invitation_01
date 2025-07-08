@@ -1529,7 +1529,7 @@
 }
 
 #SECTION6 {
-  height: 950.2px;
+  height: 1140.2px;
 }
 
 #IMAGE48 {
@@ -1783,7 +1783,7 @@
 #BUTTON2 {
   width: 382.078px;
   height: 40px;
-  top: 276px;
+  top: 500px;
   left: 0px;
 }
 
@@ -1870,15 +1870,43 @@
   width: calc(100% - 17px);
 }
 
+#FORM_ITEM411 {
+  width: 382px;
+  height: 220px;
+  top: 264px;
+  left: 0.039px;
+}
+
+#FORM_ITEM411 .ladi-form-checkbox-item {
+  margin: 5px;
+}
+
+#FORM_ITEM411 .ladi-form-item.ladi-form-checkbox {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#FORM_ITEM411
+  .ladi-form-item.ladi-form-checkbox
+  .ladi-form-checkbox-item
+  input {
+  width: 13px;
+  height: 13px;
+}
+
+#FORM_ITEM411 .ladi-form-item.ladi-form-checkbox .ladi-form-checkbox-item span {
+  width: calc(100% - 17px);
+}
+
 #HEADLINE62 {
-  top: 560.1px;
+  top: 770.1px;
   left: 20.039px;
 }
 
 #GROUP15 {
   width: 381.461px;
   height: 127.1px;
-  top: 617.1px;
+  top: 830.1px;
   left: 20.039px;
 }
 

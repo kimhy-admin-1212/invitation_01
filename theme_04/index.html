@@ -741,44 +741,165 @@
                 </div>
               </div>
               <div id="FORM_ITEM4" class="ladi-element">
+                <!-- LỰA CHỌN THAM DỰ -->
                 <div class="ladi-form-item-container">
                   <div class="ladi-form-item-background ladi-lazyload"></div>
                   <div
                     class="ladi-form-item ladi-form-checkbox ladi-form-checkbox-vertical"
                   >
-                    <div class="ladi-form-checkbox-box-item">
-                      <div class="ladi-form-checkbox-item">
+                    <label
+                      style="
+                        display: block;
+                        text-align: center;
+                        margin-bottom: 5px;
+                      "
+                      >Bạn có tham dự không?</label
+                    >
+                    <div
+                      style="
+                        display: flex;
+                        justify-content: center;
+                        gap: 20px;
+                        margin-top: 10px;
+                      "
+                    >
+                      <label
+                        style="display: flex; align-items: center; gap: 5px"
+                      >
                         <input
-                          tabindex="3"
-                          name="form_item4"
                           type="radio"
-                          value="Tôi nhất định sẽ tham gia"
-                        /><span data-checked="false"
-                          >Tôi nhất định sẽ tham gia</span
-                        >
-                      </div>
-                      <div class="ladi-form-checkbox-item">
-                        <input
-                          tabindex="3"
-                          name="form_item4"
-                          type="radio"
-                          value="Thật tiếc tôi bận mất rồi"
-                        /><span data-checked="false"
-                          >Thật tiếc tôi bận mất rồi</span
-                        >
-                      </div>
-                      <div class="ladi-form-checkbox-item">
-                        <input
-                          tabindex="3"
-                          name="form_item4"
-                          type="radio"
-                          value="Tôi sẽ nhắn lại sau"
-                        /><span data-checked="false">Tôi sẽ nhắn lại sau</span>
-                      </div>
+                          name="rsvp"
+                          value="Tham Dự"
+                          checked
+                        />
+                        Tham Dự
+                      </label>
+                      <label
+                        style="display: flex; align-items: center; gap: 5px"
+                      >
+                        <input type="radio" name="rsvp" value="Có Thể" /> Có Thể
+                      </label>
+                      <label
+                        style="display: flex; align-items: center; gap: 5px"
+                      >
+                        <input type="radio" name="rsvp" value="Rất Tiếc" /> Rất
+                        Tiếc
+                      </label>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <div id="form-extra">
+                <div id="FORM_ITEM411" class="ladi-element">
+                  <!-- LỰA CHỌN THAM DỰ -->
+                  <div class="ladi-form-item-container">
+                    <div class="ladi-form-item-background ladi-lazyload"></div>
+
+                    <div
+                      style="
+                        margin-top: 20px;
+                        margin-bottom: 10px;
+                        margin-left: 20px;
+                      "
+                    >
+                      <label>Số người tham dự:</label>
+                      <select name="so_nguoi">
+                        <option value="1">1 người</option>
+                        <option value="2">2 người</option>
+                        <option value="3">3 người</option>
+                        <option value="4">4 người</option>
+                        <option value="5">5 người</option>
+                      </select>
+                    </div>
+
+                    <div style="margin-bottom: 10px; margin-left: 20px">
+                      <label>Phương tiện đi lại:</label>
+                      <select id="select-vehicle" name="phuongtien">
+                        <option value="1">Tự túc</option>
+                        <option value="2">Đi chung</option>
+                      </select>
+                    </div>
+
+                    <div
+                      id="phone-block"
+                      style="
+                        display: none;
+                        margin-bottom: 10px;
+                        margin-left: 20px;
+                      "
+                    >
+                      <div
+                        id="FORM_ITEM2"
+                        class="ladi-element"
+                        style="
+                          top: 79px !important;
+                          width: 300px !important;
+                          left: 20px !important;
+                        "
+                      >
+                        <div class="ladi-form-item-container">
+                          <div
+                            class="ladi-form-item-background ladi-lazyload"
+                          ></div>
+                          <div class="ladi-form-item">
+                            <input
+                              autocomplete="off"
+                              tabindex="1"
+                              name="sdt"
+                              required=""
+                              class="ladi-form-control"
+                              type="text"
+                              placeholder="Số điện thoại của bạn"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      id="trip-info"
+                      style="
+                        display: none;
+                        font-size: 14px;
+                        color: #444;
+                        margin-left: 20px;
+                        margin-top: 45px;
+                      "
+                    >
+                      <strong>Thông tin chuyến đi:</strong><br />
+                      - Thời gian xuất phát: 15:00<br />
+                      - Địa điểm: Nhà Văn Hóa Quận 1<br />
+                      - Người liên hệ: 0123 456 789
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="response-image"
+                style="display: none; text-align: center; margin-top: 20px"
+              >
+                <div id="FORM_ITEM411" class="ladi-element">
+                  <!-- LỰA CHỌN THAM DỰ -->
+                  <div class="ladi-form-item-container">
+                    <div class="ladi-form-item-background ladi-lazyload"></div>
+
+                    <img
+                      id="img-response"
+                      src=""
+                      alt="response"
+                      style="max-width: 200px"
+                    />
+                    <p
+                      id="img-caption"
+                      style="font-size: 14px; color: #666; margin-top: 10px"
+                    ></p>
+                  </div>
+                </div>
+              </div>
+
               <button type="submit" class="ladi-hidden"></button>
             </form>
           </div>
@@ -1443,6 +1564,61 @@ END:VCALENDAR`;
           document.body.removeChild(tempLink);
           URL.revokeObjectURL(url);
         });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const radios = document.querySelectorAll('input[name="rsvp"]');
+        const formExtra = document.getElementById("form-extra");
+        const selectVehicle = document.getElementById("select-vehicle");
+        const phoneBlock = document.getElementById("phone-block");
+        const tripInfo = document.getElementById("trip-info");
+
+        const responseImage = document.getElementById("response-image");
+        const imgResponse = document.getElementById("img-response");
+        const imgCaption = document.getElementById("img-caption");
+
+        function updateFormDisplay() {
+          const selected = document.querySelector(
+            'input[name="rsvp"]:checked'
+          ).value;
+
+          if (selected === "Tham Dự") {
+            formExtra.style.display = "block";
+            responseImage.style.display = "none";
+
+            if (selectVehicle.value === "2") {
+              phoneBlock.style.display = "block";
+              tripInfo.style.display = "block";
+            } else {
+              phoneBlock.style.display = "none";
+              tripInfo.style.display = "none";
+            }
+          } else {
+            formExtra.style.display = "none";
+            phoneBlock.style.display = "none";
+            tripInfo.style.display = "none";
+
+            // Hiển thị hình ảnh tương ứng
+            responseImage.style.display = "block";
+            if (selected === "Có Thể") {
+              imgResponse.src =
+                "https://media.istockphoto.com/id/853258706/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-c%E1%BA%A3m-x%C3%BAc-r%E1%BA%A5t-ti%E1%BA%BFc.jpg?s=612x612&w=is&k=20&c=exFFVZpwahZkExb3FPI_q8b_R3wwOkVWarTl-DVuIyM=";
+              imgCaption.innerText =
+                "Bạn cứ suy nghĩ thêm nhé, tụi mình luôn sẵn sàng đón bạn 💌";
+            } else if (selected === "Rất Tiếc") {
+              imgResponse.src =
+                "https://media.istockphoto.com/id/853258706/vi/vec-to/bi%E1%BB%83u-t%C6%B0%E1%BB%A3ng-c%E1%BA%A3m-x%C3%BAc-r%E1%BA%A5t-ti%E1%BA%BFc.jpg?s=612x612&w=is&k=20&c=exFFVZpwahZkExb3FPI_q8b_R3wwOkVWarTl-DVuIyM=";
+              imgCaption.innerText =
+                "Rất tiếc khi bạn không thể tham dự. Mong gặp bạn dịp khác 🥺";
+            }
+          }
+        }
+
+        radios.forEach((r) => r.addEventListener("change", updateFormDisplay));
+        selectVehicle.addEventListener("change", updateFormDisplay);
+        updateFormDisplay();
+      });
     </script>
   </body>
 </html>

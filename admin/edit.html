@@ -21,6 +21,11 @@
         placeholder="Hình ảnh thumbmail"
         style="width: 700px"
       /><br />
+      <select id="type">
+        <option value="">Chọn loại</option>
+        <option value="0">Album</option>
+        <option value="1">Thiệp</option></select
+      ><br />
       <button type="submit">Lưu thay đổi</button>
     </form>
     <div id="message"></div>
@@ -58,6 +63,7 @@
         document.getElementById("name").value = data.name;
         document.getElementById("url").value = data.url;
         document.getElementById("img").value = data.img;
+        document.getElementById("type").value = data.type;
       }
 
       document
@@ -67,10 +73,11 @@
           const name = document.getElementById("name").value.trim();
           const url = document.getElementById("url").value.trim();
           const img = document.getElementById("img").value.trim();
+          const type = document.getElementById("type").value.trim();
 
           const { error } = await supabaseClient
             .from("list_theme")
-            .update({ name, url, img })
+            .update({ name, url, img, type })
             .eq("id", id);
 
           const msgEl = document.getElementById("message");
